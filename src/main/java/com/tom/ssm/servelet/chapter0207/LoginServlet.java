@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet
 		{
 			// Servlet������ִ���κε�ҵ���߼�����������JavaBean�����û�����
 			DbDao dd = new DbDao("com.mysql.jdbc.Driver",
-				"jdbc:mysql://localhost:3306/liuyan","root","32147");
+				"jdbc:mysql://10.62.240.45:3306/sakila","wcdmaria","wistron888");
 			// ��ѯ�����
 			ResultSet rs = dd.query("select pass from user_inf"
 				+ " where name = ?", username);
@@ -52,20 +52,20 @@ public class LoginServlet extends HttpServlet
 					// ����session���ԣ������û��Ự״̬
 					session.setAttribute("name" , username);
 					// ��ȡת������
-					rd = request.getRequestDispatcher("/welcome.jsp");
+					rd = request.getRequestDispatcher("/crazyit/chapter02/chapter0207/welcome.jsp");
 					// ת������
 					rd.forward(request,response);
 				}
 				else
 				{
 					// �û��������벻ƥ��ʱ
-					errMsg += "�����û������벻����,����������";
+					errMsg += "賬號密碼錯誤";
 				}
 			}
 			else
 			{
 				// �û���������ʱ
-				errMsg += "�����û���������,����ע��";
+				errMsg += "請輸入賬號和密碼!";
 			}
 		}
 		catch (Exception e)
@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet
 		// �������ת�������µ�¼
 		if (errMsg != null && !errMsg.equals(""))
 		{
-			rd = request.getRequestDispatcher("/login.jsp");
+			rd = request.getRequestDispatcher("/crazyit/chapter02/chapter0207/login.jsp");
 			request.setAttribute("err" , errMsg);
 			rd.forward(request,response);
 		}

@@ -1,4 +1,0 @@
-﻿
-INSERT INTO news_inf VALUES(NULL, '疯狂Java联盟'),(NULL, 'crazyit.org');
-
-CREATE TABLE news_inf(news_id INT AUTO_INCREMENT PRIMARY KEY,news_title VARCHAR(255) ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
