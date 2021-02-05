@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 定义2个普通Axe Bean -->
+
+
+    <!-- 定义Axe实例 -->
+    <bean id="steelAxe" class="com.tom.ssm.spring5.chapter0708.impl.SteelAxe"/>
+    <!-- 指定abstract="true"定义抽象Bean -->
+    <bean id="personTemplate" abstract="true">
+        <property name="name" value="crazyit"/>
+        <property name="axe" ref="steelAxe"/>
+    </bean>
+    <!-- 通过指定parent属性指定下面Bean配置可从父Bean继承得到配置信息 -->
+    <bean id="chinese" class="com.tom.ssm.spring5.chapter0708.impl.Chinese"
+          parent="personTemplate"/>
+    <bean id="american" class="com.tom.ssm.spring5.chapter0708.impl.American"
+          parent="personTemplate"/>
+
+    <bean id="north" class="com.tom.ssm.spring5.chapter0708.impl.GetFieldFactoryBean">
+       <property name="targetClass" value="java.awt.BorderLayout"/>
+       <property name="targetField" value="NORTH"/>
+    </bean>
+    <bean id="theValue" class="com.tom.ssm.spring5.chapter0708.impl.GetFieldFactoryBean">
+        <property name="targetClass" value="java.sql.ResultSet"/>
+        <property name="targetField" value="TYPE_SCROLL_SENSITIVE"/>
+    </bean>
+
+    <bean id="japanese" class="com.tom.ssm.spring5.chapter0708.impl.Japanese"/>
+</beans>

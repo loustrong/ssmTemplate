@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 定义2个普通Axe Bean -->
+    <bean id="stoneAxe" class="com.tom.ssm.spring5.chapter0705.impl.StoneAxe"/>
+    <bean id="steelAxe" class="com.tom.ssm.spring5.chapter0705.impl.SteelAxe"/>
+    <!-- 定义chinese Bean -->
+    <bean id="chinese" class="com.tom.ssm.spring5.chapter0705.impl.Chinese">
+        <property name="schools">
+            <!-- 为调用setSchools()方法配置List集合作为参数值 -->
+            <list>
+                <!-- 每个value、ref、bean...都配置一个List元素 -->
+                <value>小学</value>
+                <value>中学</value>
+                <value>大学</value>
+            </list>
+        </property>
+        <property name="scores">
+            <!-- 为调用setScores()方法配置Map集合作为参数值 -->
+            <map>
+                <!-- 每个entry配置一个key-value对 -->
+                <entry key="数学" value="87"/>
+                <entry key="英语" value="89"/>
+                <entry key="语文" value="82"/>
+            </map>
+        </property>
+        <property name="phaseAxes">
+            <!-- 为调用setPhaseAxes()方法配置Map集合作为参数值 -->
+            <map>
+                <!-- 每个entry配置一个key-value对 -->
+                <entry key="原始社会" value-ref="stoneAxe"/>
+                <entry key="农业社会" value-ref="steelAxe"/>
+            </map>
+        </property>
+        <property name="health">
+            <!-- 为调用setHealth()方法配置Properties集合作为参数值 -->
+            <props>
+                <!-- 每个prop元素配置一个属性项，其中key指定属性名 -->
+                <prop key="血压">正常</prop>
+                <prop key="身高">175</prop>
+            </props>
+            <!--
+            <value>
+                pressure=normal
+                height=175
+            </value> -->
+        </property>
+        <property name="axes">
+            <!-- 为调用setAxes()方法配置Set集合作为参数值 -->
+            <set>
+                <!-- 每个value、ref、bean..都配置一个Set元素 -->
+                <value>普通的字符串</value>
+                <bean class="com.tom.ssm.spring5.chapter0705.impl.SteelAxe"/>
+                <ref bean="stoneAxe"/>
+                <!-- 为Set集合配置一个List集合作为元素 -->
+                <list>
+                    <value>20</value>
+                    <!-- 再次为List集合配置一个Set集合作为元素 -->
+                    <set>
+                        <value type="int">30</value>
+                    </set>
+                </list>
+            </set>
+        </property>
+        <property name="books">
+            <!-- 为调用setBooks()方法配置数组作为参数值 -->
+            <list>
+                <!-- 每个value、ref、bean...都配置一个数组元素 -->
+                <value>疯狂Java讲义</value>
+                <value>疯狂Android讲义</value>
+                <value>轻量级Java EE企业应用实战</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="exampleBean" class="com.tom.ssm.spring5.chapter0705.ExampleBean">
+        <property name="people.name" value="sunwukong"></property>
+    </bean>
+
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <!-- 指定连接数据库的驱动 -->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <!-- 指定连接数据库的URL -->
+        <property name="jdbcUrl" value="jdbc:mysql://10.62.240.45:3306/sakila?useSSL=true"/>
+        <!-- 指定连接数据库的用户名 -->
+        <property name="user" value="wcdmaria"/>
+        <!-- 指定连接数据库的密码 -->
+        <property name="password" value="wistron888"/>
+        <!-- 指定连接数据库连接池的最大连接数 -->
+        <property name="maxPoolSize" value="200"/>
+        <!-- 指定连接数据库连接池的最小连接数 -->
+        <property name="minPoolSize" value="2"/>
+        <!-- 指定连接数据库连接池的初始连接数 -->
+        <property name="initialPoolSize" value="2"/>
+        <!-- 指定连接数据库连接池的连接的最大空闲时间 -->
+        <property name="maxIdleTime" value="200"/>
+    </bean >
+    <bean id="dog" class="com.tom.ssm.spring5.chapter0707.BeingFactory"
+    factory-method="getBeing">
+        <constructor-arg value="dog" />
+        <property name="msg" value="你是狗"/>
+    </bean>
+
+    <bean id="cat" class="com.tom.ssm.spring5.chapter0707.BeingFactory"
+          factory-method="getBeing">
+        <constructor-arg value="cat" />
+        <property name="msg" value="你是貓"/>
+    </bean>
+    <bean id="personFactory" class="com.tom.ssm.spring5.chapter0707.PersonFactory"/>
+    <bean id="chinese" factory-bean="personFactory">
+        <constructor-arg value="chin"/>
+    </bean>
+    <bean id="american" factory-bean="personFactory">
+        <constructor-arg value="ame"/>
+    </bean>
+</beans>

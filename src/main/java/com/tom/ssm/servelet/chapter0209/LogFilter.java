@@ -13,8 +13,8 @@ import java.sql.SQLOutput;
  * @version: 1.0
  */
 @WebFilter(
-        filterName = "log",
-        urlPatterns = "/*"
+//        filterName = "log",
+//        urlPatterns = "/*"
 )
 public class LogFilter implements Filter {
     // FilterConfig可用於訪問Filter的配置信息

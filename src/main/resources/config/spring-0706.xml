@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 定义2个普通Axe Bean -->
+
+
+    <bean id="cat" class="com.tom.ssm.spring5.chapter0707.BeingFactory"
+          factory-method="getBeing">
+        <constructor-arg value="cat" />
+        <property name="msg" value="你是貓"/>
+    </bean>
+    <bean id="personFactory" class="com.tom.ssm.spring5.chapter0707.PersonFactory"/>
+    <bean id="chinese" factory-bean="personFactory"
+    factory-method="getPerson">
+        <constructor-arg value="chin"/>
+    </bean>
+    <bean id="american" factory-bean="personFactory"
+          factory-method="getPerson">
+        <constructor-arg value="ame"/>
+    </bean>
+</beans>

@@ -14,13 +14,13 @@ import java.io.IOException;
  * @version: 1.0
  */
 @WebFilter(
-        filterName = "authority",
-        urlPatterns = {"/*"},
-        initParams = {
-                @WebInitParam(name="encoding", value="UTF-8"),
-                @WebInitParam(name="loginPage", value="/login.jsp"),
-                @WebInitParam(name="proLogin", value="/proLogin.jsp")
-        }
+//        filterName = "authority",
+//        urlPatterns = {"/*"},
+//        initParams = {
+//                @WebInitParam(name="encoding", value="UTF-8"),
+//                @WebInitParam(name="loginPage", value="/login.jsp"),
+//                @WebInitParam(name="proLogin", value="/proLogin.jsp")
+//        }
 )
 public class AuthorityFilter implements Filter {
 

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="chinese" class="com.tom.ssm.spring5.chapter0703.Chinese">
+<!--        <property name="axe" ref="stoneAxe"></property>-->
+        <property name="axe" ref="steelAxe"></property>
+    </bean>
+    <bean id="stoneAxe" class="com.tom.ssm.spring5.chapter0703.StoneAxe"></bean>
+    <bean id="steelAxe" class="com.tom.ssm.spring5.chapter0703.SteelAxe"></bean>
+    <bean id="japenese" class="com.tom.ssm.spring5.chapter0703.Japanese">
+        <constructor-arg ref="steelAxe"></constructor-arg>
+    </bean>
+</beans>
