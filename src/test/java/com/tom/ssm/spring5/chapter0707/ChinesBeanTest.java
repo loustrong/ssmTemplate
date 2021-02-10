@@ -5,6 +5,7 @@ import com.tom.ssm.spring5.chapter0708.impl.Chinese;
 import com.tom.ssm.spring5.chapter0708.impl.Japanese;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -54,5 +55,17 @@ public class ChinesBeanTest {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("config/spring-0708.xml");
         Japanese japa = ctx.getBean("japanese" , Japanese.class);
         japa.info();
+    }
+    @Test
+    public void testChinese070506(){
+        AbstractApplicationContext ctx = new ClassPathXmlApplicationContext("config/spring-0708.xml");
+        com.tom.ssm.spring5.chapter0709.Person p = ctx.getBean("chinese1" , com.tom.ssm.spring5.chapter0709.Person.class);
+        p.useAxe();
+        com.tom.ssm.spring5.chapter0709.Person p1 = ctx.getBean("chinese1" , com.tom.ssm.spring5.chapter0709.Person.class);
+        System.out.println("p and p1 is equal?" + (p == p1));
+        p1.hunt();
+        p.hunt();
+        // ÎªSpringÈÝÆ÷×¢²á¹Ø±Õ¹³×Ó
+        ctx.registerShutdownHook();
     }
 }

@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/aop
+  http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+  http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+  http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
+http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring ">
+
+    <context:component-scan
+            base-package="com.tom.ssm.spring5.chapter0805.simpleCache.service"/>
+
+    <!--    <cache:annotation-driven cache-manager="cacheManager" />-->
+
+    <ehcache:annotation-driven cache-manager="ehCacheManager"/>
+    <!-- 配置EhCache的CacheManager
+    通过configLocation指定ehcache.xml文件的位置 -->
+    <!--          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"-->
+    <!--    <bean id="ehCacheManager"-->
+
+    <!--          class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"-->
+    <!--          p:configLocation="classpath:config/ehcache.xml"-->
+    <!--          p:shared="false" />-->
+    <!-- 配置基于EhCache的缓存管理器
+    并将EhCache的CacheManager注入该缓存管理器Bean -->
+    <!--    <bean id="cacheManager"-->
+    <!--          class="org.springframework.cache.ehcache.EhCacheCacheManager"-->
+    <!--          p:cacheManager-ref="ehCacheManager" >-->
+    <!--    </bean>-->
+
+    <!--创建缓存管理器工厂-->
+    <!--    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">-->
+    <!--        <property name="configLocation" value="classpath:config/ehcache.xml"></property>-->
+    <!--    </bean>-->
+    <!--创建缓存管理器-->
+    <!--    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">-->
+    <!--        <property name="cacheManager" ref="cacheManagerFactory"></property>-->
+    <!--    </bean>-->
+
+
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:config/ehcache.xml"/>
+    </bean>
+</beans>

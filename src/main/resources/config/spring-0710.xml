@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!-- 定义2个普通Axe Bean -->
+
+ <bean id="person" class="com.tom.ssm.spring5.chapter0710.Person">
+    <property name="age" value="10"/>
+     <property name="son" >
+         <bean class="com.tom.ssm.spring5.chapter0710.Son">
+             <property name="age" value="11"/>
+         </bean>
+     </property>
+ </bean>
+
+   <bean id="son1" class="org.springframework.beans.factory.config.PropertyPathFactoryBean">
+       <property name="targetBeanName" value="person"/>
+       <property name="propertyPath" value="son"/>
+   </bean>
+    <!-- 下面定义son2 Bean -->
+    <bean id="son2" class="com.tom.ssm.spring5.chapter0710.Son">
+        <property name="age">
+            <!-- 使用嵌套Bean为调用setAge()方法指定参数值 -->
+            <!-- 以下是访问指定Bean的getter方法的简单方式,
+            person.son.age代表获取person.getSon().getAge()-->
+            <bean id="person.son.age" class=
+                    "org.springframework.beans.factory.config.PropertyPathFactoryBean"/>
+        </property>
+    </bean>
+    <!-- 将基本数据类型的属性值定义成Bean实例 -->
+    <bean id="theAge" class=
+            "org.springframework.beans.factory.config.PropertyPathFactoryBean">
+        <!-- 确定目标Bean，表明theAge Bean来自哪个Bean的getter方法的返回值 -->
+        <property name="targetBeanName" value="person"/>
+        <!-- 使用复合属性来指定getter方法。son.age代表getSon().getAge() -->
+        <property name="propertyPath" value="son.age"/>
+    </bean>
+    <!-- 将基本数据类型的属性值定义成Bean实例 -->
+    <bean id="theAge2" class=
+            "org.springframework.beans.factory.config.PropertyPathFactoryBean">
+        <!-- 确定目标Bean，表明theAge2 Bean来自哪个Bean的属性。
+            此处采用嵌套Bean定义目标Bean -->
+        <property name="targetObject">
+            <!-- 目标Bean不是容器中已经存在的Bean, 而是如下的嵌套Bean-->
+            <bean class="com.tom.ssm.spring5.chapter0710.Person">
+                <property name="age" value="30"/>
+            </bean>
+        </property>
+        <!-- 指定theAge2 Bean来自目标bean的哪个getter方法，age代表getAge() -->
+        <property name="propertyPath" value="age"/>
+    </bean>
+
+    <!-- 将指定类的静态Field值定义成容器中的Bean实例-->
+    <bean id="theAge3" class=
+            "org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <!-- targetClass指定访问哪个目标类 -->
+        <property name="targetClass" value="java.sql.Connection"/>
+        <!-- targetField指定要访问的Field名 -->
+        <property name="targetField" value="TRANSACTION_SERIALIZABLE"/>
+    </bean>
+
+    <!-- 简化配置
+    <util:constant id="theAge1"
+    static-field="java.sql.Connection.TRANSACTION_SERIALIZABLE"/> -->
+
+    <!-- 将指定类的静态Field值定义成容器中的Bean实例 -->
+    <bean id="theAge4" class=
+            "org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+        <!-- staticField指定访问哪个类的哪个静态Field -->
+        <property name="staticField"
+                  value="java.sql.Connection.TRANSACTION_SERIALIZABLE"/>
+    </bean>
+
+    <bean id="son3" class="com.tom.ssm.spring5.chapter0710.Son">
+        <property name="age">
+            <!-- 指定java.sql.Connection.TRANSACTION_SERIALIZABLE
+                作为调用setAge()方法的参数值 -->
+            <bean id="java.sql.Connection.TRANSACTION_SERIALIZABLE" class=
+                    "org.springframework.beans.factory.config.FieldRetrievingFactoryBean"/>
+        </property>
+    </bean>
+
+    <!-- 下面配置相当于如下Java代码：
+	JFrame win = new JFrame("我的窗口");
+	win.setVisible(true); -->
+    <bean id="win" class="javax.swing.JFrame">
+        <constructor-arg value="我的窗口" type="java.lang.String"/>
+        <property name="visible" value="true"/>
+    </bean>
+
+    <!-- 下面配置相当于如下Java代码：
+    JTextArea jta = JTextArea(7, 40); -->
+    <bean id="jta" class="javax.swing.JTextArea">
+        <constructor-arg value="7" type="int"/>
+        <constructor-arg value="40" type="int"/>
+    </bean>
+
+    <!-- 使用MethodInvokingFactoryBean驱动Spring调用普通方法
+    下面配置相当于如下Java代码：
+    win.add(new JScrollPane(jta)); -->
+    <bean class=
+                  "org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="win"/>
+        <property name="targetMethod" value="add"/>
+        <property name="arguments">
+            <list>
+                <bean class="javax.swing.JScrollPane">
+                    <constructor-arg ref="jta"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 下面配置相当于如下Java代码：
+    JPanel jp = new JPanel(); -->
+    <bean id="jp" class="javax.swing.JPanel"/>
+
+    <!-- 使用MethodInvokingFactoryBean驱动Spring调用普通方法
+    下面配置相当于如下Java代码：
+    win.add(jp , BorderLayout.SOUTH); -->
+    <bean class=
+                  "org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="win"/>
+        <property name="targetMethod" value="add"/>
+        <property name="arguments">
+            <list>
+                <ref bean="jp"/>
+                <util:constant static-field="java.awt.BorderLayout.SOUTH"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 下面配置相当于如下Java代码：
+    JButton jb1 = new JButton("确定"); -->
+    <bean id="jb1" class="javax.swing.JButton">
+        <constructor-arg value="确定" type="java.lang.String"/>
+    </bean>
+
+    <!-- 使用MethodInvokingFactoryBean驱动Spring调用普通方法
+    下面配置相当于如下Java代码：
+    jp.add(jb1); -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="jp"/>
+        <property name="targetMethod" value="add"/>
+        <property name="arguments">
+            <list>
+                <ref bean="jb1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 下面配置相当于如下Java代码：
+    JButton jb2 = new JButton("取消"); -->
+    <bean id="jb2" class="javax.swing.JButton">
+        <constructor-arg value="取消" type="java.lang.String"/>
+    </bean>
+
+    <!-- 使用MethodInvokingFactoryBean驱动Spring调用普通方法
+    下面配置相当于如下Java代码：
+    jp.add(jb2); -->
+    <bean class=
+                  "org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="jp"/>
+        <property name="targetMethod" value="add"/>
+        <property name="arguments">
+            <list>
+                <ref bean="jb2"/>
+            </list>
+        </property>
+    </bean>
+    <!-- 使用MethodInvokingFactoryBean驱动Spring调用普通方法
+    下面配置相当于如下Java代码：
+    win.pack(); -->
+    <bean class=
+                  "org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="win"/>
+        <property name="targetMethod" value="pack"/>
+    </bean>
+
+</beans>

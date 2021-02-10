@@ -125,6 +125,13 @@
       <version>${spring.version}</version>
     </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>5.3.3</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.tuckey/urlrewritefilter -->
     <dependency>
       <groupId>org.tuckey</groupId>
@@ -155,7 +162,6 @@
       <version>1.1.2</version>
     </dependency>
 
-
     <dependency>
       <groupId>org.glassfish.web</groupId>
       <artifactId>jstl-impl</artifactId>
@@ -175,6 +181,57 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <!-- dom庫-->
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6</version>
+    </dependency>
+
+<!-- aspectj -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.6</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjtools</artifactId>
+      <version>1.9.6</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+    <dependency>
+      <groupId>javax.cache</groupId>
+      <artifactId>cache-api</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <scope>runtime</scope>
+      <version>3.2.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.30</version>
+    </dependency>
+
+    <!--    <dependency>-->
+<!--      <groupId>org.ehcache</groupId>-->
+<!--      <artifactId>ehcache</artifactId>-->
+<!--      <version>3.1.3</version>-->
+<!--    </dependency>-->
+
+
 
   </dependencies>
 
@@ -190,6 +247,22 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+
+      <!-- AspectJ 编译插件 -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>aspectj-maven-plugin</artifactId>
+        <version>1.8</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>       <!-- use this goal to weave all your main classes -->
+              <goal>test-compile</goal>  <!-- use this goal to weave all your test classes -->
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 

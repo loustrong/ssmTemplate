@@ -13,4 +13,5 @@ package com.tom.ssm.spring5.chapter0709;
 public interface Person
 {
 	public void useAxe();
+	public void hunt();
 }

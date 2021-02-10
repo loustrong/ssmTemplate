@@ -27,6 +27,16 @@
         <property name="targetClass" value="java.sql.ResultSet"/>
         <property name="targetField" value="TYPE_SCROLL_SENSITIVE"/>
     </bean>
-
+    <bean id="steelAxe1" class="com.tom.ssm.spring5.chapter0709.impl.SteelAxe"/>
     <bean id="japanese" class="com.tom.ssm.spring5.chapter0708.impl.Japanese"/>
+    <bean id="chinese1" class="com.tom.ssm.spring5.chapter0709.impl.Chinese"
+          init-method="init" destroy-method="close">
+        <property name="axe" ref="steelAxe1"/>
+        <lookup-method name="getDog" bean = "gunDog"/>
+    </bean>
+    <bean id="gunDog" class="com.tom.ssm.spring5.chapter0709.impl.GunDog"
+          scope="prototype">
+        <property name="name" value="wangcai"/>
+    </bean>
+
 </beans>

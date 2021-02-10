@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="GBK"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 定义2个普通Axe Bean -->
+
+    <bean id="people2" class="com.tom.ssm.spring5.chapter0711.impl.People">
+        <constructor-arg name="age" value="500"/>
+        <constructor-arg name="name" value="孙悟空"/>
+    </bean>
+
+    <bean id="chinese1" class="com.tom.ssm.spring5.chapter0711.impl.Chinese"
+          c:axe-ref="steelAxe" c:age="29"/>
+    <!-- 配置chinese实例，其实现类是Chinese -->
+    <bean id="chinese2" class="com.tom.ssm.spring5.chapter0711.impl.Chinese"
+          c:_0-ref="steelAxe" c:_1="29"/>
+    <!-- 配置stoneAxe实例，其实现类是StoneAxe -->
+    <bean id="stoneAxe" class="com.tom.ssm.spring5.chapter0711.impl.StoneAxe"/>
+    <!-- 配置steelAxe实例，其实现类是SteelAxe -->
+    <bean id="steelAxe" class="com.tom.ssm.spring5.chapter0711.impl.SteelAxe"/>
+    
+
+</beans>
