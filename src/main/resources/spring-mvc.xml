@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -11,10 +13,10 @@
        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
     <!-- 扫描web相关的bean -->
-    <context:component-scan base-package="com.tom.ssm.controller"/>
+    <context:component-scan base-package="com.tom.ssm.controller,com.tom.ssm.springmvc"/>
 
     <!-- 开启SpringMVC注解模式 -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven enable-matrix-variables="true" conversion-service="conversionService"/>
 
     <!-- 静态资源默认servlet配置 -->
     <mvc:default-servlet-handler/>
@@ -25,5 +27,106 @@
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean name="/hello0201" class="com.tom.ssm.springmvc.chapter02.chapter0201.controller.HelloController0201"/>
+    <!-- 处理器映射器将bean的name作为url进行查找,需要在配置Handler时指定name(url) -->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <!-- SimpleControllerHandlerAdapter是一个处理器适配器,所有处理器适配器都要实现HandlerAdapter接口 -->
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <!-- 视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+
+    <!-- 处理异常配置文件 -->
+    <!-- 异常处理
+            p:defaultErrorView="error"表示所有没有指定的异常,都跳转到异常处理页面error
+            p:exceptionAttribute="ex"表示异常处理页面中访问的异常对象变量名是ex
+         -->
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"-->
+          <!--p:defaultErrorView="0302/model/exceptionError"-->
+          <!--p:exceptionAttribute="ex">-->
+        <!-- 异常映射
+            exceptionMappings表示映射的异常，接受参数是一个Properties
+            key是异常类名，value是处理异常的页面
+        -->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>-->
+                <!--<prop key="IOException">0302/model/exceptionError</prop>-->
+                <!--<prop key="SQLException">0302/model/exceptionSqlError</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!-- 自定义的类型转换器 -->
+    <!--<bean id="conversionService"-->
+          <!--class="org.springframework.context.support.ConversionServiceFactoryBean">-->
+        <!--<property name="converters">-->
+            <!--<list>-->
+                <!--<bean class="com.tom.ssm.springmvc.chapter06.chapter0601.converter.StringToDateConverter"-->
+                      <!--p:datePattern="yyyy-MM-dd"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!-- 格式化 -->
+    <!--<bean id="conversionService"-->
+          <!--class="org.springframework.format.support.FormattingConversionServiceFactoryBean">-->
+        <!--<property name="formatters">-->
+            <!--<list>-->
+                <!--<bean class="com.tom.ssm.springmvc.chapter06.chapter0601.formatter.DateFormatter" c:_0="yyyy/MM/dd"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">-->
+        <!--<property name="webBindingInitializer">-->
+            <!--<bean class="com.tom.ssm.springmvc.chapter06.chapter0601.binding.DateBindingInitializer"/>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+
+    <!-- DateFormatter bean -->
+    <bean id="dateFormatter" class="com.tom.ssm.springmvc.chapter06.chapter0601.formatter.DateFormatter"
+          c:_0="yyyy-MM-dd"/>
+
+    <!-- 格式化 -->
+    <bean id="conversionService"
+          class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="formatterRegistrars">
+            <set>
+                <bean class="com.tom.ssm.springmvc.chapter06.chapter0601.formatter.MyFormatterRegistrar"
+                      p:dateFormatter-ref="dateFormatter"/>
+            </set>
+        </property>
+    </bean>
+
+    <!-- 国际化 -->
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <!-- 国际化资源文件名 -->
+        <property name="basenames" value="i18n.message"/>
+    </bean>
+
+    <!-- 文件上传配置 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 上传文件大小上限，单位为字节（10MB） -->
+        <property name="maxUploadSize">
+            <value>10485760</value>
+        </property>
+        <!-- 请求的编码格式，必须和jSP的pageEncoding属性一致，以便正确读取表单的内容，默认为ISO-8859-1 -->
+        <property name="defaultEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/*"/>
+            <!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors下面的Interceptor将拦截所有的请求 -->
+            <bean class="com.tom.ssm.springmvc.chapter07.interceptor.interceptor.AuthorizationInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 
 </beans>
